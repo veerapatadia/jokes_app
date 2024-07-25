@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late Future<List<Jokes>?> getJokes;
+  bool isFavourite = false;
 
   @override
   void initState() {
@@ -24,7 +25,22 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Jokes App"),
+        title: Text(
+          "Jokes App",
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed('favouritePage');
+            },
+            icon: Icon(Icons.favorite),
+            color: Colors.red,
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: getJokes,
@@ -44,8 +60,8 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (context, i) {
                       return Card(
                         child: Container(
-                          height: 140,
-                          margin: EdgeInsets.only(left: 10, top: 20, right: 10),
+                          height: 175,
+                          margin: EdgeInsets.only(left: 10, top: 5, right: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -62,11 +78,22 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                   IconButton(
                                     onPressed: () {
+                                      // Navigator.of(context).pushNamed(
+                                      //     'favouritePage',
+                                      //     arguments: data[i]);
+                                      isFavourite = !isFavourite;
+
                                       Provider.of<FavoriteProvider>(context,
                                               listen: false)
-                                          .addJokes(data[i]);
+                                          .addJokes(
+                                        data[i],
+                                      );
                                     },
-                                    icon: Icon(Icons.favorite_border),
+                                    icon:
+                                        (Provider.of<FavoriteProvider>(context)
+                                                .isFavourite)
+                                            ? Icon(Icons.favorite_outlined)
+                                            : Icon(Icons.favorite_border),
                                   ),
                                 ],
                               ),
@@ -74,7 +101,7 @@ class _HomePageState extends State<HomePage> {
                                 data[i].setup,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: 18,
+                                  fontSize: 17,
                                 ),
                               ),
                               Text(

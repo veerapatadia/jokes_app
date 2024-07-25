@@ -1,6 +1,5 @@
-import 'dart:js';
-
 import 'package:advjokeapp/provider/Favouriteprovider.dart';
+import 'package:advjokeapp/views/Favourite_Page.dart';
 import 'package:advjokeapp/views/HomePage.dart';
 import 'package:advjokeapp/views/Splash_Screen.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +18,7 @@ void main() {
         routes: {
           "/": (context) => SplashScreen(),
           "homepage": (context) => HomePage(),
+          "favouritePage": (context) => FavouritePage(),
         },
       ),
     ),
